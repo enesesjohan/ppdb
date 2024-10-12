@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aplikasi PPDB SDIT Al-Furqon Kota Gajah</title>
+    <title>Form PPDB SDIT T.P 2025/2026</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
     <style>
         /* CSS untuk membuat iframe responsif penuh */
         .iframe-container {
@@ -18,13 +23,87 @@
             height: 100%;
             border: none;
         }
+
+        /* CSS untuk modal fullscreen */
+        #loadingModal {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #1D77BA;
+            z-index: 1050;
+        }
+
+        /* Style untuk teks loading */
+        .loading-text {
+            margin-top: 10px;
+            color: white;
+            font-size: 18px;
+        }
+
+        /* Tombol Reload akan ditampilkan setelah 6 detik */
+        #reloadButton {
+            display: none;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
 
-    <div class="iframe-container">
-        <iframe src="https://script.google.com/macros/s/AKfycbxyr4BIFan4FkPF_xCGoEM8YE_HKTZKGA3HwmMcABVo1Su6QCUpxZYj_UmpZAzBDB_U/exec" allowfullscreen></iframe>
+    <!-- Modal untuk loading -->
+    <div id="loadingModal">
+        <div class="text-center">
+            <!-- Spinner Bootstrap -->
+            <div class="spinner-border text-light" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="loading-text">Memuat Formulir PPDB...</div>
+            <!-- Tombol Reload -->
+            <button id="reloadButton" class="btn btn-warning">Refresh Halaman</button>
+        </div>
     </div>
+
+    <!-- Kontainer iframe -->
+    <div class="iframe-container">
+        <iframe id="myIframe" src="https://script.google.com/macros/s/AKfycbxyr4BIFan4FkPF_xCGoEM8YE_HKTZKGA3HwmMcABVo1Su6QCUpxZYj_UmpZAzBDB_U/exec" allowfullscreen></iframe>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Fungsi untuk menutup modal setelah iframe dan halaman selesai dimuat
+        function hideLoadingModal() {
+            document.getElementById('loadingModal').style.display = 'none';
+        }
+
+        // Fungsi untuk menampilkan tombol reload setelah 6 detik
+        function showReloadButton() {
+            const reloadButton = document.getElementById('reloadButton');
+            reloadButton.style.display = 'block';
+            reloadButton.addEventListener('click', function() {
+                window.location.href = 'https://google.com';  // Arahkan ke Google setelah klik Reload
+            });
+        }
+
+        // Deteksi saat iframe selesai dimuat
+        const iframe = document.getElementById('myIframe');
+        iframe.onload = function() {
+            hideLoadingModal();
+        };
+
+        // Timeout untuk menampilkan tombol reload setelah 6 detik jika halaman belum dimuat
+        setTimeout(showReloadButton, 6000);
+
+        // Jika seluruh halaman telah dimuat, tutup modal
+        window.onload = function() {
+            hideLoadingModal();
+        };
+    </script>
 
 </body>
 </html>
